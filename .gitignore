@@ -1,0 +1,4 @@
+node_modules/
+
+# Local copies with the real webhook URL (never commit)
+*.local.html

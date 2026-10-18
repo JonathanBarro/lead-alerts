@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academia Sol | Inglés para adultos en Chamberí</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #ffc53d;
+    --sun-deep: #f0a500;
+    --ink: #1b1a2e;
+    --ink-soft: #55536b;
+    --paper: #ffffff;
+    --sky: #eef2fb;
+    --line: #dfe3ee;
+    --ok: #157347;
+    --display: "Bricolage Grotesque", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--paper); font-size: 16px; line-height: 1.55; }
+  a { color: inherit; }
+
+  header { display: flex; align-items: center; justify-content: space-between; padding: 22px clamp(16px, 5vw, 64px); }
+  .logo { display: flex; align-items: center; gap: 10px; font: 800 22px var(--display); letter-spacing: -0.02em; text-decoration: none; }
+  .logo-mark { width: 30px; height: 30px; border-radius: 50%; background: var(--sun); box-shadow: inset -6px -6px 0 var(--sun-deep); }
+  .header-phone { font-weight: 600; text-decoration: none; }
+  .header-phone span { color: var(--ink-soft); font-weight: 500; margin-right: 6px; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(32px, 5vw, 72px); align-items: center; padding: clamp(16px, 4vw, 48px) clamp(16px, 5vw, 64px) 72px; max-width: 1280px; margin: 0 auto; }
+
+  .pitch h1 { font: 800 clamp(42px, 6vw, 76px)/1.0 var(--display); letter-spacing: -0.035em; margin: 0 0 22px; }
+  .pitch h1 .hl { background: linear-gradient(transparent 62%, var(--sun) 62%, var(--sun) 92%, transparent 92%); }
+  .pitch .lead { font-size: 19px; color: var(--ink-soft); max-width: 31em; margin: 0 0 30px; }
+  .levels { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 36px; padding: 0; list-style: none; }
+  .levels li { border: 1.5px solid var(--ink); border-radius: 999px; padding: 6px 16px; font-weight: 600; font-size: 15px; }
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); margin: 0; }
+  .facts div { padding: 18px 16px 0 0; }
+  .facts dt { font: 800 30px var(--display); letter-spacing: -0.02em; }
+  .facts dd { margin: 2px 0 0; color: var(--ink-soft); font-size: 14px; }
+
+  .card { background: var(--sky); border-radius: 20px; padding: clamp(24px, 3.4vw, 40px); position: relative; }
+  .card::before { content: ""; position: absolute; top: -18px; right: 28px; width: 64px; height: 64px; border-radius: 50%; background: var(--sun); box-shadow: inset -10px -10px 0 var(--sun-deep); }
+  .card h2 { font: 800 28px/1.1 var(--display); letter-spacing: -0.02em; margin: 0 0 6px; max-width: 14em; }
+  .card .sub { color: var(--ink-soft); margin: 0 0 22px; }
+  form { display: grid; gap: 14px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+  input, select, textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; font: 16px var(--body); color: var(--ink); background: #fff; transition: border-color .15s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ink); }
+  textarea { resize: vertical; min-height: 84px; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; color: var(--ink-soft); font-size: 13px; }
+  .consent input { width: auto; margin-top: 3px; }
+  button { margin-top: 4px; padding: 15px 22px; border: 0; border-radius: 12px; background: var(--ink); color: #fff; font: 600 17px var(--body); cursor: pointer; transition: transform .1s, background .15s; }
+  button:hover { background: #2d2b47; }
+  button:active { transform: scale(.99); }
+  button[disabled] { opacity: .7; cursor: wait; }
+  .error { color: #b3261e; font-size: 14px; min-height: 1.2em; margin: 0; }
+
+  .done { display: none; text-align: left; padding: 8px 0 4px; }
+  .done .tick { width: 56px; height: 56px; border-radius: 50%; background: var(--ok); display: grid; place-items: center; margin-bottom: 18px; animation: pop .35s ease-out; }
+  .done .tick svg { width: 28px; height: 28px; }
+  .done h2 { margin-bottom: 8px; }
+  .done p { color: var(--ink-soft); margin: 0 0 18px; }
+  .done .again { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+  .sent form { display: none; }
+  .sent .done { display: block; }
+  .sent > h2, .sent > .sub { display: none; }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .done .tick { animation: none; } }
+
+  footer { border-top: 1px solid var(--line); padding: 20px clamp(16px, 5vw, 64px); color: var(--ink-soft); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 880px) {
+    main { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; }
+    .header-phone span { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#"><span class="logo-mark" aria-hidden="true"></span>Academia Sol</a>
+  <a class="header-phone" href="tel:+34910000000"><span>¿Dudas?</span>910 00 00 00</a>
+</header>
+
+<main>
+  <section class="pitch">
+    <h1>Habla inglés con <span class="hl">soltura</span> en un curso</h1>
+    <p class="lead">Grupos de máximo 6 alumnos, profesores nativos y horarios de tarde pensados para quien trabaja. En pleno Chamberí, a un minuto del metro Iglesia.</p>
+    <ul class="levels" aria-label="Niveles">
+      <li>B1</li><li>B2</li><li>C1</li><li>Cambridge</li><li>Inglés para el trabajo</li>
+    </ul>
+    <dl class="facts">
+      <div><dt>6</dt><dd>alumnos por grupo como máximo</dd></div>
+      <div><dt>94 %</dt><dd>aprueba el examen oficial</dd></div>
+      <div><dt>18:00</dt><dd>clases de tarde, de lunes a jueves</dd></div>
+    </dl>
+  </section>
+
+  <section class="card" id="card" aria-live="polite">
+    <h2>Reserva tu prueba de nivel gratis</h2>
+    <p class="sub">20 minutos con un profesor. Te llamamos hoy mismo para darte hora.</p>
+
+    <form id="lead-form" novalidate>
+      <label>Nombre y apellidos<input name="name" autocomplete="name" required placeholder="Marcos Gil"></label>
+      <div class="row">
+        <label>Email<input name="email" type="email" autocomplete="email" required placeholder="marcos@email.com"></label>
+        <label>Teléfono<input name="phone" type="tel" autocomplete="tel" placeholder="600 000 000"></label>
+      </div>
+      <label>Curso que te interesa
+        <select name="Curso">
+          <option>B1 · Intermedio</option>
+          <option selected>B2 · First</option>
+          <option>C1 · Advanced</option>
+          <option>Preparación Cambridge</option>
+          <option>Inglés para el trabajo</option>
+          <option>No lo sé, quiero la prueba de nivel</option>
+        </select>
+      </label>
+      <label>¿Algo que debamos saber? <textarea name="message" placeholder="Por ejemplo: necesito el B2 para junio"></textarea></label>
+      <input name="website_hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+      <label class="consent"><input type="checkbox" name="consent" required> Acepto que Academia Sol use mis datos para contactarme sobre la prueba de nivel.</label>
+      <p class="error" id="error" role="alert"></p>
+      <button type="submit">Reservar prueba gratis</button>
+    </form>
+
+    <div class="done">
+      <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 id="done-title">¡Hecho!</h2>
+      <p>Te llamamos en menos de 24 horas laborables para darte hora. Te hemos enviado un email de confirmación.</p>
+      <button type="button" class="again" id="again">Enviar otra solicitud</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Academia Sol · Calle de Santa Engracia 58, Madrid</span>
+  <span>Negocio ficticio para una demostración</span>
+</footer>
+
+<script>
+  (function () {
+    var WEBHOOK_URL = 'PASTE_YOUR_WEBHOOK_URL_HERE';
+    var card = document.getElementById('card');
+    var form = document.getElementById('lead-form');
+    var error = document.getElementById('error');
+    var button = form.querySelector('button');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      error.textContent = '';
+      var name = form.elements.name.value.trim();
+      var email = form.elements.email.value.trim();
+      if (!name) { error.textContent = 'Escribe tu nombre.'; form.elements.name.focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { error.textContent = 'Revisa el email: parece incompleto.'; form.elements.email.focus(); return; }
+      if (!form.elements.consent.checked) { error.textContent = 'Marca la casilla de privacidad para continuar.'; return; }
+
+      var data = new URLSearchParams(new FormData(form));
+      data.delete('consent');
+      data.append('source', 'Web · Prueba de nivel');
+      button.disabled = true;
+      button.textContent = 'Enviando…';
+
+      // Apps Script answers through a redirect, so the browser sends with "no-cors"
+      // and cannot read the reply; the lead is saved on Google's side.
+      fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: data })
+        .then(function () {
+          document.getElementById('done-title').textContent = '¡Hecho, ' + name.split(' ')[0] + '!';
+          card.classList.add('sent');
+        })
+        .catch(function () {
+          error.textContent = 'No se ha podido enviar. Llámanos al 910 00 00 00.';
+        })
+        .finally(function () {
+          button.disabled = false;
+          button.textContent = 'Reservar prueba gratis';
+        });
+    });
+
+    document.getElementById('again').addEventListener('click', function () {
+      form.reset();
+      card.classList.remove('sent');
+    });
+  })();
+</script>
+</body>
+</html>

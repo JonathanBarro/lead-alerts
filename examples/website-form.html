@@ -1,0 +1,61 @@
+<!--
+  Lead Alerts — contact form for any HTML website.
+  1. Replace WEBHOOK_URL with the URL shown in the sheet menu
+     (⚡ Lead Alerts → Website form: show webhook URL & code).
+  2. Paste this block where the form should appear.
+  The hidden "website_hp" field is a honeypot: people never see it, bots fill it,
+  and those submissions are dropped automatically.
+-->
+<form id="lead-form" class="lead-form" novalidate>
+  <label>Name <input name="name" autocomplete="name" required></label>
+  <label>Email <input name="email" type="email" autocomplete="email" required></label>
+  <label>Phone <input name="phone" type="tel" autocomplete="tel"></label>
+  <label>Message <textarea name="message" rows="4"></textarea></label>
+  <input name="website_hp" tabindex="-1" autocomplete="off" aria-hidden="true"
+         style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+  <button type="submit">Send</button>
+  <p class="lead-form__status" role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .lead-form { display: grid; gap: 12px; max-width: 420px; font-family: system-ui, sans-serif; }
+  .lead-form label { display: grid; gap: 4px; font-size: 14px; }
+  .lead-form input, .lead-form textarea { padding: 10px; border: 1px solid #c8ccd2; border-radius: 6px; font: inherit; }
+  .lead-form button { padding: 12px; border: 0; border-radius: 6px; background: #1f3a5f; color: #fff; font-weight: 600; cursor: pointer; }
+  .lead-form button[disabled] { opacity: .6; cursor: wait; }
+  .lead-form__status { min-height: 1.2em; margin: 0; font-size: 14px; }
+</style>
+
+<script>
+  (function () {
+    var WEBHOOK_URL = 'PASTE_YOUR_WEBHOOK_URL_HERE';
+    var form = document.getElementById('lead-form');
+    var status = form.querySelector('.lead-form__status');
+    var button = form.querySelector('button');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var email = form.email.value.trim();
+      if (!form.name.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        status.textContent = 'Please add your name and a valid email.';
+        return;
+      }
+      var data = new URLSearchParams(new FormData(form));
+      data.append('source', document.title || location.pathname);
+      button.disabled = true;
+      status.textContent = 'Sending…';
+
+      // Apps Script answers through a redirect without CORS headers, so the browser
+      // sends the data with "no-cors" and cannot read the reply. The lead is still saved.
+      fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: data })
+        .then(function () {
+          form.reset();
+          status.textContent = 'Thanks! We will get back to you soon.';
+        })
+        .catch(function () {
+          status.textContent = 'Something went wrong. Please try again or email us directly.';
+        })
+        .finally(function () { button.disabled = false; });
+    });
+  })();
+</script>

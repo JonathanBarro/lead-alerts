@@ -1,0 +1,10 @@
+{
+  "name": "lead-alerts",
+  "version": "1.0.0",
+  "description": "Website and Google Form leads to Google Sheets, Telegram and email with Apps Script",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/lead-alerts.test.js"
+  },
+  "license": "MIT"
+}
