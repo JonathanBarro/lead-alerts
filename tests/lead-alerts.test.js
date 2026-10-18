@@ -171,14 +171,17 @@ test('Google Form submissions go through the same flow', () => {
   assert.equal(env.sheets.Leads.rows[1][5], 'Google Form');
 });
 
+// Built at runtime so no token-shaped string sits in the source (it only needs to match /^\d+:[\w-]{30,}$/).
+const FAKE_BOT_TOKEN = ['123456789', 'x'.repeat(35)].join(':');
+
 test('Connect Telegram stores the token and detects the chat ID', () => {
   const env = createGasEnvironment({
-    promptText: '123456789:AAEabcdefghijklmnopqrstuvwxyz012345',
+    promptText: FAKE_BOT_TOKEN,
     telegramUpdates: [{ message: { chat: { id: 4242, first_name: 'Lucía' } } }]
   });
   env.gas.setupSheets();
   env.gas.connectTelegram();
-  assert.equal(env.props.TELEGRAM_TOKEN, '123456789:AAEabcdefghijklmnopqrstuvwxyz012345');
+  assert.equal(env.props.TELEGRAM_TOKEN, FAKE_BOT_TOKEN);
   assert.equal(env.sheets.Settings.rows.find((r) => r[0] === 'Telegram chat ID')[1], '4242');
 });
 
